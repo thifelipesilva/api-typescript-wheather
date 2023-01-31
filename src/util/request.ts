@@ -5,7 +5,6 @@
 
 import axios, { RawAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 
-
 /* eslint-disable @typescript-eslint/no-empty-interface */
 export interface RequestConfig extends RawAxiosRequestConfig {}
 
@@ -23,6 +22,3 @@ export class Request {
     return !!(error.response && error.response.status);
   }
 }
-
-
-

@@ -3,20 +3,18 @@ import stormGlassWeather3HoursFixture from '@test/fixtures/stormglass_weather_3_
 import stormglassNormalized3HoursFixture from '@test/fixtures/stormglass_normalized_response_3_hours.json';
 import * as HTTPUtil from '@src/util/request';
 
-
 jest.mock('@src/util/request');
 
 describe('StormGlass client', () => {
-
-
   //juntando o tipo do jets com o  tipo axios para  utilizas as propriedades no ts mockedAxios.get.mockResolvedValue - inferencia de tipos?
   //const mockedAxios = axios as jest.Mocked<typeof axios>;  - typeof static
 
+  //mocando o requestError   typeof por ser statico
+  const MockedRequestClass = HTTPUtil.Request as jest.Mocked<
+    typeof HTTPUtil.Request
+  >;
 
-  //mocando o requesterror   typeof por ser statico
-  const MockedRequestClass = HTTPUtil.Request as jest.Mocked<typeof HTTPUtil.Request>
-
-  const mockedRequest = new HTTPUtil.Request() as jest.Mocked<HTTPUtil.Request>;//sem typeOf por ser instacia
+  const mockedRequest = new HTTPUtil.Request() as jest.Mocked<HTTPUtil.Request>; //sem typeOf por ser instacia
 
   //resposta ok da requisicao para Api storm glass
   it('should return the normalized forecast from the StormGlass service', async () => {
@@ -28,7 +26,9 @@ describe('StormGlass client', () => {
      * const stormGlass = new StormGlass(axios);
      */
 
-    mockedRequest.get.mockResolvedValue({ data: stormGlassWeather3HoursFixture } as HTTPUtil.Response);
+    mockedRequest.get.mockResolvedValue({
+      data: stormGlassWeather3HoursFixture,
+    } as HTTPUtil.Response);
     const stormGlass = new StormGlass(mockedRequest);
     const response = await stormGlass.fetchPoints(lat, lng);
     expect(response).toEqual(stormglassNormalized3HoursFixture);
@@ -50,7 +50,9 @@ describe('StormGlass client', () => {
       ],
     };
 
-    mockedRequest.get.mockResolvedValue({ data: incompleteResponse } as HTTPUtil.Response);
+    mockedRequest.get.mockResolvedValue({
+      data: incompleteResponse,
+    } as HTTPUtil.Response);
 
     const stormGlass = new StormGlass(mockedRequest);
     const response = await stormGlass.fetchPoints(lat, lng);
@@ -63,7 +65,7 @@ describe('StormGlass client', () => {
     const lat = -33.792725;
     const lng = 151.289824;
 
-    mockedRequest.get.mockRejectedValue({ message: 'Network Error' } );
+    mockedRequest.get.mockRejectedValue({ message: 'Network Error' });
 
     const stormGlass = new StormGlass(mockedRequest);
 
