@@ -1,5 +1,8 @@
 {
     "App": {
+        "database": {
+            "mongoUrl": "mongodb+srv://thiagotfs:sam0117@dbforecastsurf.cvuvizq.mongodb.net/?retryWrites=true&w=majority"
+        },
         "resources": {
             "StormGlass": {
                 "apiUrl": "https://api.stormglass.io/v2",
