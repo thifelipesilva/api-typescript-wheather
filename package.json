@@ -9,6 +9,7 @@
     "start:dev": "ts-node-dev 'src/index.ts'",
     "lint": "eslint ./src ./test --ext .ts",
     "lint:fix": "eslint ./src ./test --ext .ts --fix",
+    "test": "npm run test:functional --watch && npm run test:unit --watch",
     "test:functional": "jest --projects ./test --runInBand",
     "test:unit": "jest --watch",
     "style:check": "prettier --check 'src/**/*.ts' 'test/**/*.ts'",

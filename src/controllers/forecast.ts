@@ -8,8 +8,10 @@ const forecast = new Forecast();
 @Controller('forecast')
 export class ForecastController {
   @Get()
-  public async getForecastForLoggedUser(_: Request, res: Response): Promise<void> {
-    
+  public async getForecastForLoggedUser(
+    _: Request,
+    res: Response
+  ): Promise<void> {
     try {
       const beaches = await Beach.find({});
       const forecastData = await forecast.processForecastForBeaches(beaches);

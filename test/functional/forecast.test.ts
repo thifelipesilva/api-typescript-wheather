@@ -1,17 +1,16 @@
-import { Beach, BeachPosition } from "@src/models/beach";
-import stormGlassWeather3HoursFixture from '@test/fixtures/stormglass_weather_3_hours.json'
+import { Beach, BeachPosition } from '@src/models/beach';
+import stormGlassWeather3HoursFixture from '@test/fixtures/stormglass_weather_3_hours.json';
 import apiForecastResponse1BeachFixture from '@test/fixtures/api_forecast_response_1_beach.json.json';
 import nock from 'nock';
 
 describe('Beach forecast functional tests', () => {
-
   beforeEach(async () => {
     await Beach.deleteMany({});
     const defaultBeach = {
       lat: -33.792726,
       lng: 151.289824,
       name: 'Manly',
-      position: BeachPosition.E
+      position: BeachPosition.E,
     };
     const beach = new Beach(defaultBeach);
     await beach.save();
@@ -31,7 +30,8 @@ describe('Beach forecast functional tests', () => {
         lat: '-33.792726',
         lng: '151.289824',
         params: /(.*)/,
-        source: 'noaa'
+        source: 'noaa',
+        end: /(.*)/,
       })
       .reply(200, stormGlassWeather3HoursFixture);
 
@@ -40,7 +40,6 @@ describe('Beach forecast functional tests', () => {
     expect(body).toEqual(apiForecastResponse1BeachFixture);
   });
 
-
   it('should return 500 if something goes wrong during the processing', async () => {
     nock('https://api.stormglass.io:443', {
       encodedQueryParams: true,
@@ -48,14 +47,13 @@ describe('Beach forecast functional tests', () => {
         Authorization: (): boolean => true,
       },
     })
-    .defaultReplyHeaders({ 'access-control-allow-origin': '*' })
-    .get('/v1/weather/point')
-    .query({ lat: '-33.792726', lng: '151.289824' })
-    .replyWithError('Something went wrong');
+      .defaultReplyHeaders({ 'access-control-allow-origin': '*' })
+      .get('/v1/weather/point')
+      .query({ lat: '-33.792726', lng: '151.289824' })
+      .replyWithError('Something went wrong');
 
     const { status } = await global.testeRequest.get(`/forecast`);
 
     expect(status).toBe(500);
-
   });
 });
