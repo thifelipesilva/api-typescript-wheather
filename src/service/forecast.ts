@@ -19,7 +19,7 @@ export class Forecast {
   constructor(protected stormGlass = new StormGlass()) {}
   //metodo processa o forecast apartir das praias cadastradas
   public async processForecastForBeaches(
-    beaches: Beach[] 
+    beaches: Beach[]
   ): Promise<TimeForecast[]> {
     const pointsWithCorrectSources: BeachForecast[] = [];
 

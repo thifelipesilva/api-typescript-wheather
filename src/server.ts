@@ -25,8 +25,12 @@ export class SetupServer extends Server {
   private setupControllers(): void {
     const forecastController = new ForecastController();
     const beachesController = new BeachesController();
-    const userController = new UsersController()
-    this.addControllers([forecastController, beachesController, userController]);
+    const userController = new UsersController();
+    this.addControllers([
+      forecastController,
+      beachesController,
+      userController,
+    ]);
   }
 
   private async databaseSetup(): Promise<void> {
