@@ -6,7 +6,7 @@ import * as HTTPUtil from '@src/util/request';
 jest.mock('@src/util/request');
 
 describe('StormGlass client', () => {
-  //juntando o tipo do jets com o  tipo axios para  utilizas as propriedades no ts mockedAxios.get.mockResolvedValue - inferencia de tipos?
+  //juntando o tipo jets com o  tipo axios para  utilizas as propriedades no ts mockedAxios.get.mockResolvedValue - inferencia de tipos?
   //const mockedAxios = axios as jest.Mocked<typeof axios>;  - typeof static
 
   //mocando o requestError   typeof por ser statico

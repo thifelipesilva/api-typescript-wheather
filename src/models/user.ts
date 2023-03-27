@@ -1,5 +1,6 @@
 import mongoose, { Document, Model } from 'mongoose';
-
+import bcrypt from 'bcrypt';
+import AuthService from '@src/service/auth';
 export interface User {
   _id?: string;
   name: string;
@@ -41,5 +42,20 @@ schema.path('email').validate(
   'already exists in the database.',
   CUSTOM_VALIDATION.DUPLICATED
 );
+
+//neste caso usamos uma funcao anonima, nao uma arrow fun por estar usando this por causa do escopo da funcao.
+schema.pre<UserModel>('save', async function () {
+  //caso o password nao tiver sido setado ou em caso de update e o valor é o mesmo
+  if (!this.password || !this.isModified('password')) {
+    return;
+  }
+
+  try {
+    const hashedPassword = await AuthService.hashPassword(this.password);
+    this.password = hashedPassword;
+  } catch (error) {
+    console.error(`Error hasshing the password fpr the user ${this.name}`);
+  }
+});
 
 export const User: Model<UserModel> = mongoose.model<UserModel>('User', schema);
