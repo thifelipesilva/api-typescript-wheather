@@ -34,8 +34,5 @@ jobs:
       - name: Install dependencies
         run: npm install
       
-      - name: Run all unit test
-        run: npm run test:unit
-      
-      - name: Run all unit functional
-        run: npm run test:functional
+      - name: Run all test
+        run: npm run test
