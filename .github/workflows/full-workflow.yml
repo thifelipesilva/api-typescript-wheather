@@ -16,8 +16,18 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x]
-        mongodb-version: [4.2]
-  
+
+    services:
+      mongodb:
+        image: mongo:5.0
+        ports:
+          - 27017
+        options: >-
+          --health-cmd mongo
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5 
+
     steps:
       - uses: actions/checkout@v2
 
@@ -26,13 +36,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       
-      - name: Start MongoDB
-        uses: supercharge/mongodb-github-action@1.1.0
-        with:
-          node-version: ${{ matrix.mongodb-version }}
-
       - name: Install dependencies
         run: npm install
       
       - name: Run all test
+        env:
+          MONGODB_URL: mongodb://localhost:${{ job.services.mongodb.ports[27017] }}/surf-forecast-test
         run: npm run test
