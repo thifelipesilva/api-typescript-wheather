@@ -7,7 +7,7 @@ describe('Beaches functional tests', () => {
     name: 'John Doe',
     email: 'john2@email.com',
     password: '1234',
-  }
+  };
   let token: string;
   beforeEach(async () => {
     await Beach.deleteMany({});

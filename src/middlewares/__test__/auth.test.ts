@@ -5,9 +5,9 @@ describe('AuthMiddleware', () => {
   it('Should verife a JWT token andd call the next middleware', () => {
     const jwtToken = AuthService.generateToken({ data: 'fake' }); //gera um token
     const reqFake = {
-        headers: {
-          'x-access-token': jwtToken,
-        },
+      headers: {
+        'x-access-token': jwtToken,
+      },
     };
     const resFake = {};
     const nextFake = jest.fn();
@@ -33,7 +33,7 @@ describe('AuthMiddleware', () => {
     expect(sendMock).toHaveBeenCalledWith({
       code: 401,
       error: 'jwt malformed',
-    })
+    });
   });
 
   it('Should return ANAUTHORIZED middleware if theres no token', () => {

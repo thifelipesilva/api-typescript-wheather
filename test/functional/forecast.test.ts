@@ -10,7 +10,7 @@ describe('Beach forecast functional tests', () => {
     name: 'John Doe',
     email: 'john2@email.com',
     password: '1234',
-  }
+  };
   let token: string;
   beforeEach(async () => {
     await Beach.deleteMany({});
@@ -21,7 +21,7 @@ describe('Beach forecast functional tests', () => {
       lng: 151.289824,
       name: 'Manly',
       position: BeachPosition.E,
-      user: user.id
+      user: user.id,
     };
     new Beach(defaultBeach).save();
     token = AuthService.generateToken(user.toJSON());
@@ -46,7 +46,9 @@ describe('Beach forecast functional tests', () => {
       })
       .reply(200, stormGlassWeather3HoursFixture);
 
-    const { body, status } = await global.testeRequest.get('/forecast').set({ 'x-access-token': token });
+    const { body, status } = await global.testeRequest
+      .get('/forecast')
+      .set({ 'x-access-token': token });
     expect(status).toBe(200);
     expect(body).toEqual(apiForecastResponse1BeachFixture);
   });
@@ -63,7 +65,9 @@ describe('Beach forecast functional tests', () => {
       .query({ lat: '-33.792726', lng: '151.289824' })
       .replyWithError('Something went wrong');
 
-    const { status } = await global.testeRequest.get('/forecast').set({ 'x-access-token': token });
+    const { status } = await global.testeRequest
+      .get('/forecast')
+      .set({ 'x-access-token': token });
 
     expect(status).toBe(500);
   });

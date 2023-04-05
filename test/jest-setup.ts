@@ -4,15 +4,13 @@ import supertest from 'supertest';
 let server: SetupServer;
 
 beforeAll(async () => {
-  try {    
+  try {
     server = new SetupServer();
     await server.init();
     global.testeRequest = supertest(server.getApp());
-    
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 });
 
 afterAll(async () => await server.close());
-
