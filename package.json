@@ -11,7 +11,7 @@
     "lint:fix": "eslint ./src ./test --ext .ts --fix",
     "test": "npm run test:functional && npm run test:unit",
     "test:functional": "jest --projects ./test --runInBand",
-    "test:unit": "jest --watch",
+    "test:unit": "jest",
     "style:check": "prettier --check 'src/**/*.ts' 'test/**/*.ts'",
     "style:fix": "prettier --write 'src/**/*.ts' 'test/**/*.ts'"
   },
