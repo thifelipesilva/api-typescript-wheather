@@ -12,7 +12,7 @@ describe('Users functional tests', () => {
         password: '1234',
       };
 
-      const response = await global.testeRequest.post('/users').send(newUser);
+      const response = await global.testeRequest.post('/users/register').send(newUser);
       expect(response.status).toBe(201);
       await expect(
         AuthService.comparePassword(newUser.password, response.body.password)
@@ -30,7 +30,7 @@ describe('Users functional tests', () => {
         email: 'john@email.com',
         password: '1234',
       };
-      const response = await global.testeRequest.post('/users').send(newUser);
+      const response = await global.testeRequest.post('/users/register').send(newUser);
       expect(response.status).toBe(422);
       expect(response.body).toEqual({
         code: 422,
@@ -45,8 +45,8 @@ describe('Users functional tests', () => {
         password: '1234',
       };
 
-      await global.testeRequest.post('/users').send(newUser);
-      const response = await global.testeRequest.post('/users').send(newUser);
+      await global.testeRequest.post('/users/register').send(newUser);
+      const response = await global.testeRequest.post('/users/register').send(newUser);
       expect(response.status).toBe(409);
       expect(response.body).toEqual({
         code: 409,

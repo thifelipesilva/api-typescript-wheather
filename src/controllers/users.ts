@@ -3,16 +3,18 @@ import { User } from '@src/models/user';
 import AuthService from '@src/service/auth';
 import { Request, Response } from 'express';
 import { BaseController } from '.';
+import logger from '@src/logger';
 
 @Controller('users')
 export class UsersController extends BaseController {
-  @Post('')
+  @Post('register')
   public async create(req: Request, res: Response): Promise<void> {
     try {
       const user = new User(req.body);
       const newUser = await user.save();
       res.status(201).send(newUser);
     } catch (error) {
+      logger.error(error);
       this.sendCreateUpdateErrorResponse(res, error);
     }
   }
