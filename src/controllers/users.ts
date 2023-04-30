@@ -29,17 +29,15 @@ export class UsersController extends BaseController {
     const user = await User.findOne({ email });
     if (!user) {
       return this.sendErrorResponse(res, {
-        code: 401, 
-        message: 'User not found'
+        code: 401,
+        message: 'User not found',
       });
-      
     }
     if (!(await AuthService.comparePassword(password, user.password))) {
       return this.sendErrorResponse(res, {
-        code: 401, 
-        message: 'Password does not match' 
-      }); 
-        
+        code: 401,
+        message: 'Password does not match',
+      });
     }
     const token = AuthService.generateToken(user.toJSON());
     return res.status(200).send({ token: token });
@@ -47,10 +45,7 @@ export class UsersController extends BaseController {
 
   @Get('me')
   @Middleware(authMiddleware)
-  public async me(
-    req: Request,
-    res: Response
-  ): Promise<Response> {
+  public async me(req: Request, res: Response): Promise<Response> {
     const email = req.decoded ? req.decoded.email : undefined;
     const user = await User.findOne({ email });
     if (!user) {

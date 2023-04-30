@@ -12,7 +12,9 @@ describe('Users functional tests', () => {
         password: '1234',
       };
 
-      const response = await global.testeRequest.post('/users/register').send(newUser);
+      const response = await global.testeRequest
+        .post('/users/register')
+        .send(newUser);
       expect(response.status).toBe(201);
       await expect(
         AuthService.comparePassword(newUser.password, response.body.password)
@@ -30,7 +32,9 @@ describe('Users functional tests', () => {
         email: 'john@email.com',
         password: '1234',
       };
-      const response = await global.testeRequest.post('/users/register').send(newUser);
+      const response = await global.testeRequest
+        .post('/users/register')
+        .send(newUser);
       expect(response.status).toBe(422);
       expect(response.body).toEqual({
         code: 422,
@@ -47,12 +51,15 @@ describe('Users functional tests', () => {
       };
 
       await global.testeRequest.post('/users/register').send(newUser);
-      const response = await global.testeRequest.post('/users/register').send(newUser);
+      const response = await global.testeRequest
+        .post('/users/register')
+        .send(newUser);
       expect(response.status).toBe(409);
       expect(response.body).toEqual({
         code: 409,
         error: 'Conflict',
-        message: 'User validation failed: email: already exists in the database.',
+        message:
+          'User validation failed: email: already exists in the database.',
       });
     });
   });
@@ -111,7 +118,7 @@ describe('Users functional tests', () => {
       expect(body).toMatchObject(JSON.parse(JSON.stringify({ user })));
     });
 
-    it(`Should return Not found, when the user is not found`,async () => {
+    it(`Should return Not found, when the user is not found`, async () => {
       const newUser = {
         name: 'John Doe',
         email: 'john@mail.com',
