@@ -12,9 +12,7 @@ describe('Users functional tests', () => {
         password: '1234',
       };
 
-      const response = await global.testeRequest
-        .post('/users/register')
-        .send(newUser);
+      const response = await global.testeRequest.post('/users/register').send(newUser);
       expect(response.status).toBe(201);
       await expect(
         AuthService.comparePassword(newUser.password, response.body.password)
@@ -27,18 +25,16 @@ describe('Users functional tests', () => {
       );
     });
 
-    it('Should return 422 when there is a validation error', async () => {
+    it('Should return a validation error when field is missing', async () => {
       const newUser = {
         email: 'john@email.com',
         password: '1234',
       };
-      const response = await global.testeRequest
-        .post('/users/register')
-        .send(newUser);
-      expect(response.status).toBe(422);
+      const response = await global.testeRequest.post('/users/register').send(newUser);
+      expect(response.status).toBe(400);
       expect(response.body).toEqual({
-        code: 422,
-        error: 'Unprocessable Entity',
+        code: 400,
+        error: 'Bad Request',
         message: 'User validation failed: name: Path `name` is required.',
       });
     });
@@ -51,9 +47,7 @@ describe('Users functional tests', () => {
       };
 
       await global.testeRequest.post('/users/register').send(newUser);
-      const response = await global.testeRequest
-        .post('/users/register')
-        .send(newUser);
+      const response = await global.testeRequest.post('/users/register').send(newUser);
       expect(response.status).toBe(409);
       expect(response.body).toEqual({
         code: 409,
