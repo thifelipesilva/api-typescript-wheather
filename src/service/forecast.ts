@@ -30,7 +30,7 @@ export class Forecast {
     try {
       const beacheForecast = await this.caculateRating(beaches);
       const timeForecast = this.mapForecastByTime(beacheForecast); //serializando nossa response de um BeachForecast para TimeForecast
-      return timeForecast.map(t => ({
+      return timeForecast.map((t) => ({
         time: t.time,
         forecast: _.orderBy(t.forecast, ['rating'], ['desc']),
       }));
@@ -42,7 +42,7 @@ export class Forecast {
 
   private async caculateRating(beaches: Beach[]): Promise<BeachForecast[]> {
     const pointsWithCorrectSources: BeachForecast[] = [];
-    logger.info(`Preparing the forecast for ${beaches.length} beaches`);    
+    logger.info(`Preparing the forecast for ${beaches.length} beaches`);
     for (const beach of beaches) {
       const rating = new this.RatingService(beach);
       const points = await this.stormGlass.fetchPoints(beach.lat, beach.lng);

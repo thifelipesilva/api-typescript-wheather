@@ -8,7 +8,6 @@ import { authMiddleware } from '@src/middlewares/auth';
 
 @Controller('users')
 export class UsersController extends BaseController {
-  
   @Post('register')
   public async create(req: Request, res: Response): Promise<void> {
     try {

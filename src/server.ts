@@ -48,13 +48,13 @@ export class SetupServer extends Server {
   private setupErrorHandler(): void {
     this.app.use(apiErrorValidator);
   }
-  
+
   private async docsSetup(): Promise<void> {
     this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(apiSchema));
     this.app.use(
       OpenApiValidator.middleware({
         apiSpec: apiSchema as OpenAPIV3.Document,
-        validateRequests: true, 
+        validateRequests: true,
         validateResponses: true,
       })
     );
